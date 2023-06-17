@@ -5,6 +5,9 @@
   import ChartDescription from "./ChartDescription.svelte";
   import ChartAxisTitle from "./ChartAxisTitle.svelte";
   import Chart from "./Chart.svelte";
+  import ChartAxis from "./ChartAxis.svelte";
+
+  const data: Array<{x: number, y: number}> = Array(100).fill(0).map((_, i) => ({x: i, y: i*4 + 32}));
 </script>
 
 
@@ -28,7 +31,10 @@
       <ChartAxisTitle side="right" slot="axisTitleRight">
         <span style:font-size="1rem">This is a very Looooong title</span>
       </ChartAxisTitle>
-      <Chart slot="chart" />
+      <Chart slot="chart" data={data}>
+        <g>hello </g>
+        <!-- <ChartAxis side="bottom" /> -->
+      </Chart>
       <ChartDescription slot="description">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore laudantium assumenda sequi fugiat possimus, vero doloremque ratione voluptatem. Suscipit quisquam, optio accusamus reiciendis accusantium voluptatum soluta, quidem quaerat voluptates hic quia sit tempora itaque. Dolorum distinctio, quidem repellendus beatae quam dolores odit, aperiam, asperiores laudantium laboriosam facilis deleniti dicta! Expedita.
       </ChartDescription>

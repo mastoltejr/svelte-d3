@@ -61,7 +61,7 @@
     #chart {
         position: relative;
         display: block;
-        background-color: grey;
+        /* background-color: grey; */
         flex-grow: 1;
     }
 </style>
