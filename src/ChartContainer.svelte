@@ -1,17 +1,16 @@
 <script lang="ts">
-    import { setContext } from "svelte";
+    import { onMount, tick, setContext } from 'svelte';
     export let height: string = '';
     export let width: string = '';
     let containerHeight: number;
     let containerWidth: number;
-    let chartHeight: number;
-    let chartWidth: number;
 
-    $: {
-        setContext('chartDimensions', {
-            chartWidth, chartHeight
-        });
-    }
+    onMount(async () => {
+        await tick();
+        const chartWidth = document.getElementById('chart').offsetWidth;
+        const chartHeight = document.getElementById('chart').offsetHeight;
+        setContext('chartDimensions', {chartWidth, chartHeight})
+    });
 </script>
 
 <div id="container" style={`width: ${width}; height: ${height}`} bind:clientHeight={containerHeight} bind:clientWidth={containerWidth}>
@@ -28,10 +27,8 @@
         <div id="axisTitleLeft">
             <slot name="axisTitleLeft" />
         </div>
-        <div id="chart" bind:clientWidth={chartWidth} bind:clientHeight={chartHeight}>
-            <svg width={chartWidth} height={chartHeight}>
+        <div id="chart">
             <slot name="chart" />
-            </svg>
         </div>
         <div id="axisTitleRight">
             <slot name="axisTitleRight" />
@@ -57,10 +54,13 @@
 
     main {
         display: flex;
-        flex-grow: 1
+        flex-grow: 1;
+        position: relative;
     }
 
     #chart {
+        position: relative;
+        display: block;
         background-color: grey;
         flex-grow: 1;
     }
