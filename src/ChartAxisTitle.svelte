@@ -1,60 +1,56 @@
 <script lang="ts">
   export let side: 'top' | 'right' | 'bottom' | 'left' = 'bottom';
   export let title: string = "axis title";
-  let titleWidth: number;
+  let height: number = 0;
 </script>
 
-<div style:position='relative' style:height="100%">
-<div style:width={`${titleWidth}px`}>
-</div>
+<div id="container" style:position='relative' style:height="100%" bind:clientHeight={height}>
+
 {#if side === 'top'}
-  <div bind:clientHeight={titleWidth}>
+  <div>
     <slot>
       {title}
     </slot>
   </div>
 {:else if side === 'right'}
-  <div class="inner rotate-right" bind:clientHeight={titleWidth}>
+  <div class="rotate-right" style={`max-height: ${height}px`}>
     <slot>
       {title}
     </slot>
   </div>
 {:else if side === 'bottom'}
-  <div bind:clientHeight={titleWidth}>
+  <div>
     <slot>
       {title}
     </slot>
   </div>
 {:else }
-  <div class="inner rotate-left" bind:clientHeight={titleWidth}>
+  <div class="rotate-left" style={`max-height: ${height}px`}>
     <slot>
       {title}
     </slot>
   </div>
+  
 {/if}
 </div>
 
 <style>
-  div {
+  #container {
     font-size: 0.8rem;
-    text-align: center;
-  }
-
-  .inner {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    display: flex;
+    justify-content: center;
   }
 
   .rotate-left {
-    -moz-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
-    -webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
-    transform:  translateX(-50%) translateY(-50%) rotate(-90deg);
+    writing-mode: vertical-rl;
+    overflow-wrap: break-word;
+    transform: rotate(180deg);
   }
 
   .rotate-right {
-    -moz-transform: translateX(-50%) translateY(-50%) rotate(90deg);
-    -webkit-transform: translateX(-50%) translateY(-50%) rotate(90deg);
-    transform:  translateX(-50%) translateY(-50%) rotate(90deg);
+    writing-mode: vertical-rl;
+    overflow-wrap: break-word;
   }
+
+  
 </style>
